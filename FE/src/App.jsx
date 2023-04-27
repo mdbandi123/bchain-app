@@ -1,12 +1,13 @@
-import './App.css'
-
+import { Fragment } from 'react'
+import MenuRoutes from './Routes';
 
 function App() {
 
-  return (
-    <>
-    </>
-  )
+    return (
+        <Fragment>
+            <MenuRoutes />
+        </Fragment>
+    )
 }
 
-export default App
+export default App;
