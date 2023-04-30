@@ -15,7 +15,7 @@ export default function CustomizedSnackbars(props) {
         setOpenSnackBar(true);
         setTimeout(() => {
             setOpenSnackBar(false)
-        }, 3000);
+        }, 5000);
     };
 
     const handleCloseSnackbar = (event, reason) => {
@@ -30,7 +30,7 @@ export default function CustomizedSnackbars(props) {
             <CardActionArea  onClick={handleClickSnackbar}>
                 {props.children}
             </CardActionArea>
-            <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+            <Snackbar open={openSnackBar} autoHideDuration={5000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert onClose={handleCloseSnackbar} severity='error' >
                     Item Not Available!
                 </Alert>

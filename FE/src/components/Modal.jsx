@@ -24,7 +24,7 @@ function Modal(props) {
         setOpen(false);
         setTimeout(() => {
             setOpenSnackBar(false)
-        }, 3000);
+        }, 5000);
         
     };
 
@@ -70,10 +70,10 @@ function Modal(props) {
                 <DialogContent>
                     <DialogContentText sx={style.dialog_contentText} id='alert-dialog-slide-description'>
                         <Grid2 container spacing={5}>
-                            <Grid2 item xs={12} sx={12} md={6} lg={6} xl={6}>
+                            <Grid2 item xs={12} setTimeout={12} md={6} lg={6} xl={6}>
                                 <CardMedia component='img' height='310' image={props.img} sx={style.dialog_img} />
                             </Grid2>
-                            <Grid2 item xs={12} sx={12} md={6} lg={6} xl={6}>
+                            <Grid2 item xs={12} sm={12} md={6} lg={6} xl={6}>
                                 <Box>
                                     <TextField sx={style.dialog_textfield} id='outlined-basic' type='number' color={secondaryColor} label='Hours' variant='outlined' fullWidth />
                                 </Box>
@@ -96,7 +96,7 @@ function Modal(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+            <Snackbar open={openSnackBar} autoHideDuration={5000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert onClose={handleCloseSnackbar} severity='success' >
                     Item Rent Successfully
                 </Alert>
