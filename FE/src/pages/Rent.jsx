@@ -9,6 +9,7 @@ import { Box, Button, CardActionArea, InputAdornment, Stack, TextField, Typograp
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import Modal from '../components/Modal';
 import ErrorSnackbar from '../components/ErrorSnackbar';
+import ReturnModal from '../components/ReturnModal';
 
 function Rent() {
     const { darkMode, primaryColor, secondaryColor, backgroundColor } = useStore();
@@ -105,7 +106,7 @@ function Rent() {
                                             </CardContent>
                                         </Modal>
                                         :
-                                        <ErrorSnackbar>
+                                        <ReturnModal model={list.modelName}>
                                             <CardMedia component='img' height='220' image={list.img} alt={list.modelName} />
                                             <CardContent>
                                                 <Stack direction='column' spacing={0}>
@@ -146,7 +147,7 @@ function Rent() {
                                                     </Box>
                                                 </Stack>
                                             </CardContent>
-                                        </ErrorSnackbar>
+                                        </ReturnModal>
                                     }
                                 </Card>
                             </motion.div>
