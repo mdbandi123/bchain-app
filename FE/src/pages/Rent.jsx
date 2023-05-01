@@ -165,7 +165,7 @@ function Rent() {
                                                     <Box>
                                                         <Stack direction='row' spacing={1}>
                                                             <Box>
-                                                                <Styled.Primary sx={style.rent_perHr} text={`₱${list.costPerHour.toNumber()} per hr`} variant='body1' />
+                                                                <Styled.Primary sx={style.rent_perHr} text={`${ethers.utils.formatEther(list.costPerHour.toNumber())} ETH per hr`} variant='body1' />
                                                             </Box>
                                                             <Box>
                                                                 {

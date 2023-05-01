@@ -28,7 +28,6 @@ function Payment() {
 
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner();
-    
 
     const contract = new ethers.Contract(import.meta.env.VITE_CONTRACT_ADDRESS, ABI, signer);
 
@@ -44,7 +43,6 @@ function Payment() {
         const getNumBikes = async() => {
             const num = await contract.getNumOfBikes();
             const formattedNum = num.toNumber();
-            console.log("inside",formattedNum);
             setNumBikes(formattedNum);
         }
 
@@ -64,7 +62,6 @@ function Payment() {
         getNumBikes();
         getTotalHours();
         getBikesRented();
-
 
     },[])
 
