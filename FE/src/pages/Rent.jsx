@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import useStore from '../store';
 import eBikeList from '../data/ebike';
@@ -11,9 +11,41 @@ import Modal from '../components/Modal';
 import ErrorSnackbar from '../components/ErrorSnackbar';
 import ReturnModal from '../components/ReturnModal';
 
+import { ethers } from "ethers";
+import ABI from '../ABI';
+
 function Rent() {
     const { darkMode, primaryColor, secondaryColor, backgroundColor } = useStore();
     const [search, setSearch] = useState('');
+
+    const [bikeArray, setBikeArray] = useState([]);
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+
+
+    const contract = new ethers.Contract(import.meta.env.VITE_CONTRACT_ADDRESS, ABI, signer);
+
+
+    useEffect(()=>{
+        const connectWallet = async() => {
+            await provider.send("eth_requestAccounts", []);
+        }
+
+        const getBikesArray = async() => {
+            const bikesArray1 = await contract.getBikes();
+            const x = [...bikesArray1];
+            setBikeArray(x);
+        }
+
+        connectWallet()
+            .catch(console.error);
+
+        
+        getBikesArray();
+   
+        
+    },[bikeArray])
 
     const style = {
         search: {
@@ -54,47 +86,47 @@ function Rent() {
                 </Box>
             </Box>
             <Grid2 container spacing={3}>
-                {eBikeList.filter((list) => {
-                    return search.toLowerCase() === '' ? list : list.modelName.toLowerCase().includes(search);
+                {bikeArray.filter((list) => {
+                    return search.toLowerCase() === '' ? list : list.name.toLowerCase().includes(search);
                 }).map((list) => (
-                    <Grid2 item xs={12} sx={12} md={4} lg={3} xl={3}>
+                    <Grid2 item xs={12} sx={12} md={4} lg={3} xl={3} key={list.name}>
                         <AnimatePresence>
-                            <motion.div key={list.modelName} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, scale: 0, transition: { duration: 0.3 } }}>
+                            <motion.div key={list.name} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, scale: 0, transition: { duration: 0.3 } }}>
                                 <Card sx={style.rent_card}>
                                     {
-                                        list.available ? 
-                                        <Modal name={list.modelName} img={list.img}>
-                                            <CardMedia component='img' height='220' image={list.img} alt={list.modelName} />
+                                        list.isAvailable ? 
+                                        <Modal name={list.name} img={list.img} cost={list.costPerHour.toNumber()}>
+                                            <CardMedia component='img' height='220' image={list.img} alt={list.name} />
                                             <CardContent>
                                                 <Stack direction='column' spacing={0}>
                                                     <Box>
                                                         <Typography gutterBottom variant='h6' component='div'>
-                                                            {list.modelName}
+                                                            {list.name}
                                                         </Typography>
                                                     </Box>
                                                     <Box>
                                                         <Typography sx={style.rent_otherInfo} variant='body2' color='text.secondary'>
-                                                            Range Power: {list.rangePower}km
+                                                            Range Power: {list.rangePower.toNumber()}km
                                                         </Typography>
                                                     </Box>
                                                     <Box>
                                                         <Typography sx={style.rent_otherInfo} variant='body2' color='text.secondary'>
-                                                            Max Speed: {list.maxSpeed}Km/h
+                                                            Max Speed: {list.maxSpeed.toNumber()}Km/h
                                                         </Typography>
                                                     </Box>
                                                     <Box>
                                                         <Typography sx={style.rent_otherInfo} variant='body2' color='text.secondary'>
-                                                            Battery Capacity: {list.batteryCapacity}
+                                                            Battery Capacity: {list.batteryCapacity.toNumber()}
                                                         </Typography>
                                                     </Box>
                                                     <Box>
                                                         <Stack direction='row' spacing={1}>
                                                             <Box>
-                                                                <Styled.Primary sx={style.rent_perHr} text={`₱${list.perHr} per hr`} variant='body1' />
+                                                                <Styled.Primary sx={style.rent_perHr} text={`${ethers.utils.formatEther(list.costPerHour.toNumber())} ETH per hr`} variant='body1' />
                                                             </Box>
                                                             <Box>
                                                                 {
-                                                                    list.available ? <> </> :
+                                                                    list.isAvailable ? <> </> :
                                                                         <Typography sx={style.rent_perHr} variant='body1' color='text.secondary'>
                                                                             (Not Available)
                                                                         </Typography>
@@ -106,38 +138,38 @@ function Rent() {
                                             </CardContent>
                                         </Modal>
                                         :
-                                        <ReturnModal model={list.modelName}>
-                                            <CardMedia component='img' height='220' image={list.img} alt={list.modelName} />
+                                        <ReturnModal model={list.name}>
+                                            <CardMedia component='img' height='220' image={list.img} alt={list.name} />
                                             <CardContent>
                                                 <Stack direction='column' spacing={0}>
                                                     <Box>
                                                         <Typography gutterBottom variant='h6' component='div'>
-                                                            {list.modelName}
+                                                            {list.name}
                                                         </Typography>
                                                     </Box>
                                                     <Box>
                                                         <Typography sx={style.rent_otherInfo} variant='body2' color='text.secondary'>
-                                                            Range Power: {list.rangePower}km
+                                                            Range Power: {list.rangePower.toNumber()}km
                                                         </Typography>
                                                     </Box>
                                                     <Box>
                                                         <Typography sx={style.rent_otherInfo} variant='body2' color='text.secondary'>
-                                                            Max Speed: {list.maxSpeed}Km/h
+                                                            Max Speed: {list.maxSpeed.toNumber()}Km/h
                                                         </Typography>
                                                     </Box>
                                                     <Box>
                                                         <Typography sx={style.rent_otherInfo} variant='body2' color='text.secondary'>
-                                                            Battery Capacity: {list.batteryCapacity}
+                                                            Battery Capacity: {list.batteryCapacity.toNumber()}
                                                         </Typography>
                                                     </Box>
                                                     <Box>
                                                         <Stack direction='row' spacing={1}>
                                                             <Box>
-                                                                <Styled.Primary sx={style.rent_perHr} text={`₱${list.perHr} per hr`} variant='body1' />
+                                                                <Styled.Primary sx={style.rent_perHr} text={`₱${list.costPerHour.toNumber()} per hr`} variant='body1' />
                                                             </Box>
                                                             <Box>
                                                                 {
-                                                                    list.available ? <> </> :
+                                                                    list.isAvailable ? <> </> :
                                                                         <Typography sx={style.rent_perHr} variant='body1' color='text.secondary'>
                                                                             (Not Available)
                                                                         </Typography>

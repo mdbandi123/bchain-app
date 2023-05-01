@@ -221,11 +221,10 @@ function SideBar() {
                                     <ElectricBikeIcon sx={style.appbar_logo_icon} />
                                 </Box>
                                 <Box>
-                                    E-Bike Rental
+                                    Rent-A-Bike
                                 </Box>
                             </Stack>
                         </Typography>
-                        <AccountCircleIcon />
                     </Toolbar>
                 </AppBar>
                 <Drawer variant='permanent' open={open} >

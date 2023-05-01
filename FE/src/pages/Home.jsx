@@ -100,12 +100,12 @@ function Home() {
             <FadeIn>
                 <Grid2 sx={style.home_container} container alignItems='center' spacing={1}>
                     <Grid2 sx={style.home_container_leftComponent} item xs={12} sm={12} md={8} lg={8} xl={8}>
-                        <Styled.Primary text='E-Bike Rental' variant='h3' />
+                        <Styled.Primary text='Rent-A-Bike' variant='h3' />
                         <Typography variant='h6' color='text.primary'>
-                            Tagline for E-Bike Rental
+                            Cruise Conveniently 
                         </Typography>
                         <Typography sx={style.home_container_leftComponent_info} variant='body1' color='text.secondary'>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut doloremque laboriosam a. Hic, autem ducimus. Quia aut doloribus dolore officia. Ea fuga reprehenderit vitae a ut minima nesciunt quos est.
+                            Move around the city in style with our e-bikes for rent. Powered by the blockchain, your transactions are always secured with us.
                         </Typography>
                         <Button sx={style.home_container_leftComponent_info} variant='contained' color={primaryColor} onClick={() => navigate('/rent')}>
                             Start Renting E-Bike

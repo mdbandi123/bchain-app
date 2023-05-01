@@ -5,6 +5,9 @@ import useStore from '../store';
 import MuiAlert from '@mui/material/Alert';
 import { Fragment } from 'react';
 
+import { ethers } from "ethers";
+import ABI from '../ABI';
+
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
 });
@@ -18,14 +21,16 @@ function ReturnModal(props) {
     const { primaryColor, secondaryColor } = useStore();
     const [openSnackBar, setOpenSnackBar] = React.useState(false);
 
-    const handleClickSnackbar = () => {
-        setOpenSnackBar(true);
-        setOpen(false);
-        setTimeout(() => {
-            setOpenSnackBar(false)
-        }, 5000);
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
 
-    };
+
+    const contract = new ethers.Contract(import.meta.env.VITE_CONTRACT_ADDRESS, ABI, signer);
+
+    const handleReturnSubmit = async() => {
+        const returnBike = await contract.updateBikes(props.model);
+        await returnBike.wait();
+    }
 
     const handleCloseSnackbar = (event, reason) => {
         if (reason === 'clickaway') {
@@ -56,7 +61,7 @@ function ReturnModal(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button variant='outlined' onClick={handleClose} color={primaryColor}>Cancel</Button>
-                    <Button variant='contained' onClick={handleClickSnackbar} color={primaryColor}>Confirm</Button>
+                    <Button variant='contained' onClick={handleReturnSubmit} color={primaryColor}>Confirm</Button>
                 </DialogActions>
             </Dialog>
             <Snackbar open={openSnackBar} autoHideDuration={5000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
