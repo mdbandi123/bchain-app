@@ -45,7 +45,7 @@ function Rent() {
         getBikesArray();
    
         
-    },[bikeArray])
+    },[bikeArray, provider, contract])
 
     const style = {
         search: {

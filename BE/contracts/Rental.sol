@@ -43,7 +43,7 @@ contract Rental {
     }
 
     function getNumOfBikes() public view returns (uint){
-        return bikes.length;
+        return totalEbikes;
     }
 
     function getTotalHours() public view returns (uint){
